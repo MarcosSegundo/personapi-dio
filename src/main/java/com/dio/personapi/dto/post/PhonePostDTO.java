@@ -1,4 +1,4 @@
-package com.dio.personapi.dto.request;
+package com.dio.personapi.dto.post;
 
 import com.dio.personapi.enums.PhoneType;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 
 @Data
 @Builder
-public class PhoneDTO {
+public class PhonePostDTO {
 
     @Enumerated(EnumType.STRING)
     private PhoneType type;

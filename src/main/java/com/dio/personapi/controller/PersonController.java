@@ -1,6 +1,7 @@
 package com.dio.personapi.controller;
 
-import com.dio.personapi.dto.request.PersonDTO;
+import com.dio.personapi.dto.post.PersonPostDTO;
+import com.dio.personapi.dto.put.PersonPutDTO;
 import com.dio.personapi.exception.PersonNotFoundException;
 import com.dio.personapi.model.Person;
 import com.dio.personapi.service.PersonService;
@@ -20,8 +21,8 @@ public class PersonController {
     private PersonService personService;
 
     @PostMapping
-    public ResponseEntity<Person> save(@RequestBody @Valid PersonDTO personDTO) {
-        return new ResponseEntity<>(personService.save(personDTO), HttpStatus.CREATED);
+    public ResponseEntity<Person> save(@RequestBody @Valid PersonPostDTO personPostDTO) {
+        return new ResponseEntity<>(personService.save(personPostDTO), HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -32,6 +33,12 @@ public class PersonController {
     @GetMapping("/{id}")
     public ResponseEntity<Person> findById(@PathVariable Long id) throws PersonNotFoundException {
         return ResponseEntity.ok(personService.findById(id));
+    }
+
+    @PutMapping
+    public ResponseEntity<Void> updateById(@RequestBody @Valid PersonPutDTO personPutDTO) throws PersonNotFoundException {
+        personService.update(personPutDTO);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/{id}")

@@ -1,6 +1,7 @@
 package com.dio.personapi.service;
 
-import com.dio.personapi.dto.request.PersonDTO;
+import com.dio.personapi.dto.post.PersonPostDTO;
+import com.dio.personapi.dto.put.PersonPutDTO;
 import com.dio.personapi.exception.PersonNotFoundException;
 import com.dio.personapi.mapper.PersonMapper;
 import com.dio.personapi.model.Person;
@@ -18,8 +19,8 @@ public class PersonService {
 
     private final PersonMapper personMapper = PersonMapper.INSTANCE;
 
-    public Person save(PersonDTO personDTO) {
-        return personRepository.save(personMapper.toModel(personDTO));
+    public Person save(PersonPostDTO personPostDTO) {
+        return personRepository.save(personMapper.toModel(personPostDTO));
     }
 
     public List<Person> listAll() {
@@ -30,12 +31,19 @@ public class PersonService {
         return verifyIfExists(id);
     }
 
+    public void update(PersonPutDTO personPutDTO) throws PersonNotFoundException {
+        Person savedPerson = verifyIfExists(personPutDTO.getId());
+        Person updatedPerson = personMapper.toModel(personPutDTO);
+        updatedPerson.setId(savedPerson.getId());
+        personRepository.save(updatedPerson);
+    }
+
     public void deleteById(Long id) throws PersonNotFoundException {
         Person person = verifyIfExists(id);
         personRepository.deleteById(id);
     }
 
-    public Person verifyIfExists(Long id) throws PersonNotFoundException {
+    private Person verifyIfExists(Long id) throws PersonNotFoundException {
         return personRepository.findById(id).orElseThrow(() -> new PersonNotFoundException(id));
     }
 }
