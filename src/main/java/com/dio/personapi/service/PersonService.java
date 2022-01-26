@@ -7,6 +7,8 @@ import com.dio.personapi.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PersonService {
 
@@ -17,5 +19,9 @@ public class PersonService {
 
     public Person save(PersonDTO personDTO) {
         return personRepository.save(personMapper.toModel(personDTO));
+    }
+
+    public List<Person> listAll() {
+        return personRepository.findAll();
     }
 }
