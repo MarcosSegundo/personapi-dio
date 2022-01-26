@@ -1,6 +1,7 @@
 package com.dio.personapi.service;
 
 import com.dio.personapi.dto.request.PersonDTO;
+import com.dio.personapi.exception.PersonNotFoundException;
 import com.dio.personapi.mapper.PersonMapper;
 import com.dio.personapi.model.Person;
 import com.dio.personapi.repository.PersonRepository;
@@ -23,5 +24,9 @@ public class PersonService {
 
     public List<Person> listAll() {
         return personRepository.findAll();
+    }
+
+    public Person findById(Long id) throws PersonNotFoundException {
+        return personRepository.findById(id).orElseThrow(() -> new PersonNotFoundException(id));
     }
 }
