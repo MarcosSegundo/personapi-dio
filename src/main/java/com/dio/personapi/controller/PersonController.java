@@ -33,4 +33,10 @@ public class PersonController {
     public ResponseEntity<Person> findById(@PathVariable Long id) throws PersonNotFoundException {
         return ResponseEntity.ok(personService.findById(id));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) throws PersonNotFoundException {
+        personService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
